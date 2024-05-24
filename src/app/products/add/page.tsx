@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { occasionOptions } from "../../../../constant";
 import Select from "react-select";
+import { addProduct } from "@/actions/productActions";
 
 function AddProduct() {
   const [brandsOption, setBrandsOption] = useState([]);
@@ -42,7 +43,13 @@ function AddProduct() {
     validationSchema: basicSchema,
 
     onSubmit: async (values: any, actions) => {
-      alert("Please Update the Code");
+      try {
+        await addProduct(values);
+        alert ("Product added successfully");
+        // Handle success, e.g., redirect to another page
+      } catch (error) {
+        throw error;
+      }
     },
   });
 

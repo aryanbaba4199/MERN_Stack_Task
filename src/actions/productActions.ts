@@ -8,6 +8,7 @@ import { InsertProducts, UpdateProducts } from "@/types";
 import { revalidatePath } from "next/cache";
 import { authOptions } from "@/utils/authOptions";
 import { cache } from "react";
+import { Result } from "postcss";
 
 export async function getProducts(pageNo = 1, pageSize = DEFAULT_PAGE_SIZE) {
   try {
@@ -142,6 +143,44 @@ export async function getProductCategories(productId: number) {
 
     return categories;
   } catch (error) {
+    throw error;
+  }
+}
+
+
+
+// exporting add product function
+export async function addProduct(product: any) {
+  try {
+    const savingProduct = await db
+      .insertInto("products")
+      .values({
+        name: product.name,
+        description: product.description,
+        old_price: product.old_price,
+        discount: product.discount,
+        rating: product.rating,
+        colors: product.colors,
+        gender: product.gender,
+        brands: JSON.stringify(product.brands.map(b => b.value)),
+        occasion: JSON.stringify(product.occasion.map(o => o.value)),
+        image_url: product.image_url,
+      })
+      .execute();
+    const productId = savingProduct[0].insertId;
+    const categoryInserts = product.categories.map((category: any) => ({
+      product_id: productId,
+      category_id: category.value
+    }));
+
+    // Now Saving the product category
+    await db
+      .insertInto("product_categories")
+      .values(categoryInserts)
+      .execute();
+    return { message: "Product added successfully", productId };
+  } catch (error) {
+    console.log(error);
     throw error;
   }
 }
