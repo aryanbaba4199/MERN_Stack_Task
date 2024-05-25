@@ -229,34 +229,3 @@ async function Product({
 
 export default Product;
 
-/* 
-<div className="flex flex-col gap-2 bg-white p-4 text-black rounded-md mb-4">
-              <p>User name</p>
-              <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iusto
-                voluptatum corporis eligendi aliquam quo nihil nam, nisi a
-                quisquam dolorum maiores odio optio, necessitatibus officiis
-                itaque veritatis laboriosam amet? Velit repellendus deleniti
-                porro voluptates at praesentium in suscipit nostrum, quo
-                doloremque molestiae, debitis a consectetur enim nam nesciunt,
-                minus alias?
-              </p>
-              <p>13/12/2002</p>
-            </div>
-            <div className="flex gap-4">
-              <span>-</span>
-              <div className="flex flex-col gap-2 bg-white p-4 text-black rounded-md">
-                <p>User name</p>
-                <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Iusto voluptatum corporis eligendi aliquam quo nihil nam, nisi
-                  a quisquam dolorum maiores odio optio, necessitatibus officiis
-                  itaque veritatis laboriosam amet? Velit repellendus deleniti
-                  porro voluptates at praesentium in suscipit nostrum, quo
-                  doloremque molestiae, debitis a consectetur enim nam nesciunt,
-                  minus alias?
-                </p>
-                <p>13/12/2002</p>
-              </div>
-            </div>
-*/

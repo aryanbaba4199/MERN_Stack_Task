@@ -11,22 +11,10 @@ const sortingOptions = [
   { value: "rating-desc", label: "Sort by rating (desc)" },
 ];
 
-function SortBy({page, pagesize, getproducts} : any) {
+function SortBy() {
   const router = useRouter();
   const params = useSearchParams();
   const searchParams = new URLSearchParams(params);
-
-  async function handleSortChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    const sortBy = e.target.value;
-    const newSearchParams = new URLSearchParams(searchParams);
-    if (sortBy) {
-      newSearchParams.set("sortBy", sortBy);
-    } else {
-      newSearchParams.delete("sortBy");
-    }
-    router.push(`?${newSearchParams.toString()}`);
-   await  getproducts(page, pagesize, sortBy);
-  }
 
   return (
     <div className="text-black flex gap-2">
@@ -36,8 +24,8 @@ function SortBy({page, pagesize, getproducts} : any) {
         id="sorting"
         value={String(searchParams.get("sortBy"))}
         onChange={(e) => {
-          handleSortChange(e);
-          // getproducts(page, pagesize, e.target.value);
+          searchParams.set('sortBy',e.target.value);
+          router.push(`/products?${searchParams.toString()}`)
         }}
       >
         <option value="">None</option>

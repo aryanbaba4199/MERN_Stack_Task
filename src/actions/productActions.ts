@@ -21,14 +21,14 @@ export async function getProducts(
   priceRangeTo = 2000,
   occasions = [],
   discount = "",
-  sortBy = ""
+  sortBy = "",
 ) {
-  db;
+  
   try {
-    let productQuery = db.selectFrom("brands").selectAll("brands");
+    
     let dbQuery = db.selectFrom("products").selectAll("products");
 
-    // Apply filters
+    // Defining filter functionalities
     if (brand.length > 0) {
       const brandIds = (Array.isArray(brand))?brand:[brand];
       dbQuery= dbQuery.where('brands','regexp',`\\b(${brandIds.join('|')})\\b`);
@@ -57,6 +57,11 @@ export async function getProducts(
     if (discount) {
       const [from, to] = discount.split("-");
       dbQuery = dbQuery.where("discount", ">=", parseFloat(from)).where("discount", "<=", parseFloat(to));
+    }
+
+    if(sortBy){
+      const [field, order] = sortBy?.split('-');
+      dbQuery= dbQuery.orderBy(`products.${field}`, order);
     }
 
     

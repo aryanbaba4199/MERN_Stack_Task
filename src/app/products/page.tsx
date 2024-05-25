@@ -13,7 +13,7 @@ export default async function Products({
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const { page = 1, pageSize = DEFAULT_PAGE_SIZE, brandId, categoryId, gender, priceRangeTo, occasions, discount } = searchParams as any;
+  const { page = 1, pageSize = DEFAULT_PAGE_SIZE, brandId, categoryId, gender, priceRangeTo, occasions, discount, sortBy } = searchParams as any;
 
   const { products, lastPage, numOfResultsOnCurPage } = await getProducts(
     +page,
@@ -23,7 +23,8 @@ export default async function Products({
     gender,
     priceRangeTo,
     occasions,
-    discount
+    discount,
+    sortBy,
   );
 
   const brands = await getBrands();
