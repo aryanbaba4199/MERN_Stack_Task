@@ -9,8 +9,10 @@ import { revalidatePath } from "next/cache";
 import { authOptions } from "@/utils/authOptions";
 import { cache } from "react";
 import { Result } from "postcss";
+import Brands from "@/app/brands/page";
 
 export async function getProducts(
+ 
   pageNo = 1,
   pageSize = DEFAULT_PAGE_SIZE,
   brand = [],
@@ -21,18 +23,22 @@ export async function getProducts(
   discount = "",
   sortBy = ""
 ) {
+  db;
   try {
-    let productQuery = db.selectFrom("product_categories").selectAll("product_categories");
+    let productQuery = db.selectFrom("brands").selectAll("brands");
     let dbQuery = db.selectFrom("products").selectAll("products");
 
     // Apply filters
     if (brand.length > 0) {
-      dbQuery = dbQuery.where("brands", "=", [brand]);
+      const brandIds = (Array.isArray(brand))?brand:[brand];
+      dbQuery= dbQuery.where('brands','regexp',`\\b(${brandIds.join('|')})\\b`);
     }
+    
+
 
     if (category.length > 0) {
-      productQuery = productQuery.where("category_id", "=", sql`${category}`);
-      console.log("prq", productQuery);
+      const categoryIds = (Array.isArray(category))?category:[category];
+      dbQuery = dbQuery.innerJoin('product_categories','product_id', 'products.id').where('category_id','in',categoryIds)
     }
 
     if (gender) {
@@ -53,16 +59,7 @@ export async function getProducts(
       dbQuery = dbQuery.where("discount", ">=", parseFloat(from)).where("discount", "<=", parseFloat(to));
     }
 
-    // defining sorting method
-    if (sortBy === "price_asc") {
-      dbQuery = dbQuery.orderBy("price", "asc");
-    } else if (sortBy === "price_desc") {
-      dbQuery = dbQuery.orderBy("price", "desc");
-    } else if (sortBy === "name_asc") {
-      dbQuery = dbQuery.orderBy("name", "asc");
-    } else if (sortBy === "name_desc") {
-      dbQuery = dbQuery.orderBy("name", "desc");
-    }
+    
 
     const { count } = await dbQuery
       .select(sql`COUNT(DISTINCT products.id) as count`)

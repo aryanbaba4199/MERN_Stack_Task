@@ -124,16 +124,16 @@ function Filter({ categories, brands }) {
     }
   }, [sliderValue]);
 
-  const handleBrandsSelect = (selectedBrands) => {
-    const brandIds = selectedBrands.map((brand) => brand.value).join(",");
-    searchParams.set("brandId", brandIds);
-    console.log(brandIds);
-    router.push(`/products?${searchParams.toString()}`, { scroll: false });
+  const handleBrandsSelect = (e) => {
+    searchParams.delete('brandId');
+    e.forEach(brand => searchParams.append('brandId',brand.value));
+    router.push('/products?'+searchParams.toString());
   };
 
   const handleCategoriesSelected = (selectedCategories) => {
     const categoryIds = selectedCategories.map((category) => category.value).join(",");
     searchParams.set("categoryId", categoryIds);
+    setCategoriesSelected(selectedCategories);
     router.push(`/products?${searchParams.toString()}`, { scroll: false });
   };
 
@@ -144,6 +144,7 @@ function Filter({ categories, brands }) {
 
   const handleGenderChange = (event) => {
     searchParams.set("gender", event.target.value);
+    setSelectedGender(event.target.value);
     router.push(`/products?${searchParams.toString()}`, { scroll: false });
   };
 
