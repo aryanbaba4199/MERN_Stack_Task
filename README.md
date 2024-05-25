@@ -1,72 +1,83 @@
-## Project Overview
 
-The task involves developing a web application that allows users to browse through a list of products categorized by various parameters. Users should have the capability to sort and filter products based on criteria such as categories, price range, gender, occasion, and discount. Furthermore, the application should empower users to seamlessly edit and delete their selected products, with these modifications being promptly reflected in the user interface.
+# MERN Stack Project
 
-## Github Repo:
+The task involves developing a web application that allows users to browse through a list of products categorized by various parameters. Users can to sort and filter products based on criteria such as categories, price range, gender, occasion, and discount. Furthermore, the application is empower users to seamlessly edit and delete their selected products.
 
-https://github.com/enacton-tech/mern-stack-task
 
-### Video Explanation
 
-https://app.usebubbles.com/kG9NjR5kqBCssXm1yA5dZt/mernstack-interview-task-walkthrough
 
-### Setting Up the Project
+## Github Repo :
 
-To set up the project locally, follow these steps:
+https://github.com/aryanbaba4199/MERN_Stack_Task
 
-1. Clone the repository and navigate to the project folder.
+### Video Explaination :
+https://github.com/aryanbaba4199/MERN_Stack_Task
+
+### Setting up the project
+
+
+
+
+## Installation
+
+1. Clone the Repo : 
+
+```bash
+  https://github.com/aryanbaba4199/MERN_Stack_Task
+```
 2. Import the product_database.sql file in to your MySQL database (you can use phpMyAdmin).
 3. Update the .env file with your own MySQL credentials.
-4. Run `npm install --force`.
-5. Start the project using `npm run dev`.
-6. Access the NextJS website at http://localhost:3000.
+
+```bash
+ DB_NAME = "Your Database Name"
+HOST = "Your host link by default it will localhost"
+USER_NAME = "Enter your userName"
+PASSWORD = "Enter your password"
+```
+4. Run 
+```bash
+  npm install --force
+```
+5. Start the project using 
+```bash
+  npm run dev
+```
+6.  Access the website at
+```bash
+  http://localhost:3000
+```
 7. Setup the database, You would need mysql and workbench for the database. You can get it from here: https://dev.mysql.com/downloads/installer. To Import data in do refer to this document: https://dev.mysql.com/doc/workbench/en/wb-admin-export-import-management.html
 
-### Requirements
+* Project Setup is completed 
+    
 
-#### Project Setup
+    
+## Features
 
-1. **Project Setup**: Ensure proper project setup as per the provided instructions.
+- **Pagination** -```  There is a new pagination function where users can view 10 products per page by default. Users can also choose to view 10, 25, or 50 products per page.```
 
-#### Pagination for products
+- **Sorting** -```  Users can sort the products according to price, creation date, rating, etc.```
 
-2. **Main Section**: Display a paginated list of product in the main section.
+- **Filter** -```Users can filter products by brand, category, price range, gender, occasion, and discount. These filters highlight selected options, providing a customized shopping experience. The system ensures easy and efficient browsing, allowing users to quickly find products that meet their specific criteria. ```
+- **Add Product** -```Users can create new products by filling out a form with details such as name, category, price, and description, and submitting it to add the product to the list. ```
 
-#### Product Sorting and Filtering
+- **Edit and Update Product** -```Users can edit and update product details by selecting a product, modifying the information, and saving the changes to reflect the updates in the products ```
 
-3. **Product Sorting**: Implement options for sorting products based on price, creation date (created_at), and rating.
-4. **Brand Filter**: Enable product filtering by the chosen brand and emphasize the selected brands within the respective tab.
-5. **Category Filter**: Allow product filtering by the selected category and highlight the chosen category within its designated tab.
-6. **Price Range Filter**: Provide the ability to filter products based on the selected price range and highlight the chosen range within its dedicated tab.
-7. **Occasion Filter**: Enable product filtering based on the selected occasion and highlight the chosen occasion within its specific tab.
-8. **Discount Filter**: Implement product filtering based on the selected discount and highlight the chosen discount within its dedicated tab.
-9. **URL Parameters**: Store all filter and sort options in the URL parameters to replicate the user's browsing state when sharing URLs.
+- **Delete Product** -```Users can delete products by selecting the product and confirming the deletion to remove it from the list. ```
 
-#### Product Operations (Create/Edit/Delete)
 
-10. **Create Product**: Allow users to crete product.
-11. **Edit Product**: Allow users to modify specific product details.
-12. **Delete Product**: Provide the functionality to remove a particular product from the list.
 
-### Delivery Expectations
 
-1. **Code Repository**: Push the code to a public GitHub repository.
-2. **Documentation**: Provide well-documented code with a comprehensive README file.
-3. **Setup Instructions**: Include clear instructions on how to set up and run the project.
-4. **Application Demo**: Record a video demonstrating the application's functionality.
 
-### Evaluation Criteria
 
-Candidates will be evaluated based on the following criteria:
 
-1. **Functionality**: Does the application meet all specified requirements?
-2. **Code Quality**: Is the code well-structured, readable, and maintainable?
-3. **Documentation**: Is the codebase well-documented with clear instructions?
-4. **User Experience**: Does the application provide a smooth and intuitive user experience?
-5. **Technical Proficiency**: How effectively does the candidate utilize relevant technologies and APIs?
-6. **Delivery Quality**: Does the candidate deliver all expected deliverables with high quality?
 
-## Conclusion
+## Conclusion : 
+This project demonstrates the capabilities of a MERN stack application in providing a seamless and user-friendly interface for managing a product catalog. The implemented features, including pagination, sorting, filtering, and CRUD operations, ensure an efficient and customized user experience.
 
-We're thrilled to witness your skills in action as you tackle this project. Your dedication and creativity will play a vital role in crafting a seamless user experience. Best of luck, and we're excited to see your contributions!
-# MERN_Stack_Task
+i appreciate your interest in this project and hope that the clear setup instructions and comprehensive feature set meet your expectations. For any further inquiries or contributions, please feel free to reach out or submit a pull request.
+
+Thank you for your time and happy coding!
+
+
+
