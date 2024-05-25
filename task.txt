@@ -1,1 +1,1 @@
-there is no any categories column in table so i defined because its giving error 
+Add Product function created 

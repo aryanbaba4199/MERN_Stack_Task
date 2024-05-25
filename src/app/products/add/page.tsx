@@ -46,8 +46,9 @@ function AddProduct() {
       try {
         await addProduct(values);
         alert ("Product added successfully");
-        // Handle success, e.g., redirect to another page
+        actions.resetForm();
       } catch (error) {
+        alert ("Something went wrong");
         throw error;
       }
     },

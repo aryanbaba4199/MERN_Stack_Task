@@ -16,7 +16,7 @@ export async function getProducts(pageNo = 1, pageSize = DEFAULT_PAGE_SIZE) {
     let dbQuery = db.selectFrom("products").selectAll("products");
 
     const { count } = await dbQuery
-      // .select(sql`COUNT(DISTINCT products.id) as count`)
+      .select(sql`COUNT(DISTINCT products.id) as count`)
       .executeTakeFirst();
 
     const lastPage = Math.ceil(count / pageSize);

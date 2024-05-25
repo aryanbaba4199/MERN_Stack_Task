@@ -17,11 +17,31 @@ function PaginationSection({
   const searchParams = new URLSearchParams(query);
 
   function handlePrev() {
-    alert("Please update the code.");
+    if (pageNo > 1) {
+      const newSearchParams = new URLSearchParams(searchParams);
+      newSearchParams.set('page', (pageNo - 1).toString());
+      newSearchParams.set('pageSize', pageSize.toString());
+      router.push(`?${newSearchParams.toString()}`);
+    }
   }
+  
 
   function handleNext() {
-    alert("Please update the code.");
+    if (pageNo < lastPage) {
+      const newSearchParams = new URLSearchParams(searchParams);
+      newSearchParams.set('page', (pageNo + 1).toString());
+      newSearchParams.set('pageSize', pageSize.toString());
+      router.push(`?${newSearchParams.toString()}`);
+    }
+  }
+
+  // handling page size change 
+  function handlePageSizeChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    const newPageSize = e.target.value;
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set('pageSize', newPageSize);
+    newSearchParams.set('page', '1');
+    router.push(`?${newSearchParams.toString()}`);
   }
 
   return (
@@ -31,10 +51,10 @@ function PaginationSection({
         name="page-size"
         className="text-black"
         onChange={(e) => {
-          alert("Please update the code.");
+          handlePageSizeChange(e);
         }}
       >
-        {["10", "25", "50"].map((val) => {
+        {[ "10", "25", "50"].map((val) => {
           return (
             <option key={val} value={val}>
               {val}
