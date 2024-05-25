@@ -203,40 +203,39 @@ export async function getProductCategories(productId: number) {
 
 
 // exporting add product function
-export async function addProduct(product: any) {
-  try {
-    const savingProduct = await db
-      .insertInto("products")
-      .values({
-        name: product.name,
-        description: product.description,
-        old_price: product.old_price,
-        discount: product.discount,
-        rating: product.rating,
-        colors: product.colors,
-        gender: product.gender,
-        brands: JSON.stringify(product.brands.map(b => b.value)),
-        occasion: JSON.stringify(product.occasion.map(o => o.value)),
-        image_url: product.image_url,
-      })
-      .execute();
-    const productId = savingProduct[0].insertId;
-    const categoryInserts = product.categories.map((category: any) => ({
-      product_id: productId,
-      category_id: category.value
-    }));
+export async function addProducts(product:InsertProducts, categories){
+  const productEntity = await db.insertInto('products').values(product).executeTakeFirst();
+  await db.insertInto('product_categories').values(categories.map((category)=>({
+    product_id:productEntity.insertId,
+    category_id:category.value
+  }))).execute();
+};
 
-    // Now Saving the product category
-    await db
-      .insertInto("product_categories")
-      .values(categoryInserts)
-      .execute();
-    return { message: "Product added successfully", productId };
-  } catch (error) {
-    console.log(error);
-    throw error;
+
+// update product functionality
+export async function updateProduct(product:UpdateProducts, categories){
+  const productEntity = await db.updateTable('products').set(product).where('id','=',product.id).executeTakeFirst();
+  const productCategories = await db.selectFrom('product_categories').selectAll().where('product_id','=',product.id).execute();
+  const categoryIds = productCategories.map((productCategory) =>productCategory.category_id);
+  const notExistingCategories = categories.filter((category)=>{
+    if(categoryIds.find(id=>id==category.value)){
+      return false;
+    };
+    return true;
+  });
+  const removedCategoryIds =  categoryIds.filter((id)=>{
+    if(categories.find(category=>id==category.value)){
+      return false;
+    };
+    return true;
+  });
+  if(removedCategoryIds.length){
+    await db.deleteFrom('product_categories').where('product_id','=',product.id).where('category_id','in',removedCategoryIds).execute();
   }
-}
-
-
-// Handling sorting functionality
+  if(notExistingCategories.length){
+    await db.insertInto('product_categories').values(notExistingCategories.map((category)=>({
+      product_id:product.id,
+      category_id:category.value
+    }))).execute();
+  }
+};
