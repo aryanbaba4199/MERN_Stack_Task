@@ -1,1 +1,6 @@
+1. **Project Setup**: Ensure proper project setup as per the provided instructions. : Completed 
+2. **Main Section**: Display a paginated list of product in the main section. : Completed
+3. 
+
+
 Add Product function created 

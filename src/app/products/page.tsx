@@ -13,11 +13,17 @@ export default async function Products({
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const { page = 1, pageSize = DEFAULT_PAGE_SIZE } = searchParams as any;
+  const { page = 1, pageSize = DEFAULT_PAGE_SIZE, brandId, categoryId, gender, priceRangeTo, occasions, discount } = searchParams as any;
 
   const { products, lastPage, numOfResultsOnCurPage } = await getProducts(
     +page,
-    +pageSize
+    +pageSize,
+    brandId,
+    categoryId,
+    gender,
+    priceRangeTo,
+    occasions,
+    discount
   );
 
   const brands = await getBrands();

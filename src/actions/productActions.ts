@@ -10,10 +10,59 @@ import { authOptions } from "@/utils/authOptions";
 import { cache } from "react";
 import { Result } from "postcss";
 
-export async function getProducts(pageNo = 1, pageSize = DEFAULT_PAGE_SIZE) {
+export async function getProducts(
+  pageNo = 1,
+  pageSize = DEFAULT_PAGE_SIZE,
+  brand = [],
+  category = [],
+  gender = "",
+  priceRangeTo = 2000,
+  occasions = [],
+  discount = "",
+  sortBy = ""
+) {
   try {
-    let products;
+    let productQuery = db.selectFrom("product_categories").selectAll("product_categories");
     let dbQuery = db.selectFrom("products").selectAll("products");
+
+    // Apply filters
+    if (brand.length > 0) {
+      dbQuery = dbQuery.where("brands", "=", [brand]);
+    }
+
+    if (category.length > 0) {
+      productQuery = productQuery.where("category_id", "=", sql`${category}`);
+      console.log("prq", productQuery);
+    }
+
+    if (gender) {
+      dbQuery = dbQuery.where("gender", "=", gender);
+    }
+
+    if (priceRangeTo) {
+      dbQuery = dbQuery.where("price", "<=", priceRangeTo);
+    }
+
+    if (occasions.length > 0) {
+      
+      dbQuery = dbQuery.where("occasion", "=", occasions);
+    }
+
+    if (discount) {
+      const [from, to] = discount.split("-");
+      dbQuery = dbQuery.where("discount", ">=", parseFloat(from)).where("discount", "<=", parseFloat(to));
+    }
+
+    // defining sorting method
+    if (sortBy === "price_asc") {
+      dbQuery = dbQuery.orderBy("price", "asc");
+    } else if (sortBy === "price_desc") {
+      dbQuery = dbQuery.orderBy("price", "desc");
+    } else if (sortBy === "name_asc") {
+      dbQuery = dbQuery.orderBy("name", "asc");
+    } else if (sortBy === "name_desc") {
+      dbQuery = dbQuery.orderBy("name", "desc");
+    }
 
     const { count } = await dbQuery
       .select(sql`COUNT(DISTINCT products.id) as count`)
@@ -21,7 +70,7 @@ export async function getProducts(pageNo = 1, pageSize = DEFAULT_PAGE_SIZE) {
 
     const lastPage = Math.ceil(count / pageSize);
 
-    products = await dbQuery
+    const products = await dbQuery
       .distinct()
       .offset((pageNo - 1) * pageSize)
       .limit(pageSize)
@@ -31,9 +80,11 @@ export async function getProducts(pageNo = 1, pageSize = DEFAULT_PAGE_SIZE) {
 
     return { products, count, lastPage, numOfResultsOnCurPage };
   } catch (error) {
+    console.error("Error executing query: ", error);
     throw error;
   }
 }
+
 
 export const getProduct = cache(async function getProduct(productId: number) {
   // console.log("run");
@@ -184,3 +235,6 @@ export async function addProduct(product: any) {
     throw error;
   }
 }
+
+
+// Handling sorting functionality

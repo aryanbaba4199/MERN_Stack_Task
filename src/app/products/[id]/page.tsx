@@ -1,4 +1,5 @@
 //@ts-nocheck
+"use client"
 import { authOptions } from "@/utils/authOptions";
 import AddComment from "@/components/AddComment";
 import AddReview from "@/components/AddReview";

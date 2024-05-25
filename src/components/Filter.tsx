@@ -1,9 +1,7 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-// import Select from "react-select";
 import { MultiSelect } from "react-multi-select-component";
 import "rc-slider/assets/index.css";
 import { occasionOptions } from "../../constant";
@@ -23,21 +21,21 @@ function Filter({ categories, brands }) {
   const searchParams = useQueryParams();
   const router = useRouter();
 
-  const brandsOption: any[] = useMemo(() => {
-    return brands.map((brand: any) => ({
+  const brandsOption = useMemo(() => {
+    return brands.map((brand) => ({
       value: brand.id,
       label: brand.name,
     }));
   }, [brands]);
 
-  const categoriesOption: any[] = useMemo(() => {
-    return categories.map((category: any) => ({
+  const categoriesOption = useMemo(() => {
+    return categories.map((category) => ({
       value: category.id,
       label: category.name,
     }));
   }, [categories]);
 
-  const occasionOption: any[] = useMemo(() => {
+  const occasionOption = useMemo(() => {
     return occasionOptions.map((item) => {
       return {
         value: item,
@@ -63,9 +61,11 @@ function Filter({ categories, brands }) {
       return [];
     }
   });
+
   const [selectedGender, setSelectedGender] = useState(
     () => searchParams.get("gender") || ""
   );
+
   const [sliderValue, setSliderValue] = useState(
     () => searchParams.get("priceRangeTo") || 2000
   );
@@ -114,7 +114,6 @@ function Filter({ categories, brands }) {
   useEffect(() => {
     if (sliderChanged) {
       const handler = setTimeout(() => {
-        // setSliderValue(tempSliderValue);
         searchParams.delete("page");
         searchParams.delete("pageSize");
         searchParams.set("priceRangeTo", `${sliderValue}`);
@@ -125,46 +124,42 @@ function Filter({ categories, brands }) {
     }
   }, [sliderValue]);
 
-  function handleBrandsSelect(e) {
-    alert("Please update the code.");
-  }
-
-  function handleCategoriesSelected(e) {
-    alert("Please update the code.");
-  }
-
-  function handleSlider(e) {
-    alert("Please update the code.");
-  }
-
-  const handleGenderChange = (e) => {
-    alert("Please update the code.");
+  const handleBrandsSelect = (selectedBrands) => {
+    const brandIds = selectedBrands.map((brand) => brand.value).join(",");
+    searchParams.set("brandId", brandIds);
+    console.log(brandIds);
+    router.push(`/products?${searchParams.toString()}`, { scroll: false });
   };
 
-  function handleOccasions(e) {
-    alert("Please update the code.");
-  }
+  const handleCategoriesSelected = (selectedCategories) => {
+    const categoryIds = selectedCategories.map((category) => category.value).join(",");
+    searchParams.set("categoryId", categoryIds);
+    router.push(`/products?${searchParams.toString()}`, { scroll: false });
+  };
 
-  function handleDiscount(e) {
-    alert("Please update the code.");
-  }
+  const handleSlider = (event) => {
+    setSliderValue(event.target.value);
+    setSliderChanged(true);
+  };
 
-  // function handleClearAll() {
-  //   searchParams.delete("categoryId");
-  //   searchParams.delete("brandId");
-  //   searchParams.delete("priceRangeTo");
-  //   searchParams.delete("gender");
-  //   searchParams.delete("occasions");
-  //   searchParams.delete("discount");
-  //   router.push(`/products?${searchParams.toString()}`);
-  // }
+  const handleGenderChange = (event) => {
+    searchParams.set("gender", event.target.value);
+    router.push(`/products?${searchParams.toString()}`, { scroll: false });
+  };
+
+  const handleOccasions = (selectedOccasions) => {
+    const occasionValues = selectedOccasions.map((occasion) => occasion.value).join(",");
+    searchParams.set("occasions", occasionValues);
+    router.push(`/products?${searchParams.toString()}`, { scroll: false });
+  };
+
+  const handleDiscount = (selectedDiscount) => {
+    searchParams.set("discount", selectedDiscount.value);
+    router.push(`/products?${searchParams.toString()}`, { scroll: false });
+  };
 
   return (
     <div className="w-full">
-      {/* <button className="bg-white p-2 my-4 text-black" onClick={handleClearAll}>
-        Clear All
-      </button> */}
-      {/* <p className="text-lg">Filter By</p> */}
       <div className="w-1/4 flex  items-center gap-4 mb-4">
         <span>Brands</span>
         <Select
@@ -250,8 +245,9 @@ function Filter({ categories, brands }) {
           onChange={handleGenderChange}
         />
         <label htmlFor="girl">Girl</label>
+        <br />
       </div>
-      <div className="w-1/4 flex  items-center gap-4 mb-4">
+      <div className="w-1/4 flex items-center gap-4 mb-4">
         <span>Occasion</span>
         <Select
           className="flex-1 text-black"
@@ -263,7 +259,7 @@ function Filter({ categories, brands }) {
         />
       </div>
 
-      <div className="w-1/4 flex  items-center gap-4 mb-4">
+      <div className="w-1/4 flex items-center gap-4 mb-4">
         <span>Filter By discount</span>
         <Select
           className="flex-1 text-black"
