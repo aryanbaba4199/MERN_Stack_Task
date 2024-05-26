@@ -214,7 +214,7 @@ export async function addProducts(product:InsertProducts, categories){
 
 // update product functionality
 export async function updateProduct(product:UpdateProducts, categories){
-  const productEntity = await db.updateTable('products').set(product).where('id','=',product.id).executeTakeFirst();
+  await db.updateTable('products').set(product).where('id','=',product.id).executeTakeFirst();
   const productCategories = await db.selectFrom('product_categories').selectAll().where('product_id','=',product.id).execute();
   const categoryIds = productCategories.map((productCategory) =>productCategory.category_id);
   const notExistingCategories = categories.filter((category)=>{

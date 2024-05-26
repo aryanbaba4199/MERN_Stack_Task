@@ -11,7 +11,7 @@ The task involves developing a web application that allows users to browse throu
 https://github.com/aryanbaba4199/MERN_Stack_Task
 
 ### Video Explaination :
-https://github.com/aryanbaba4199/MERN_Stack_Task
+https://drive.google.com/file/d/1uI2bJvfAmD5s9_OatvYE5Dd191QSNp7b/view?usp=drive_link
 
 ### Setting up the project
 
